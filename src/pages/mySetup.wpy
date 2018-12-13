@@ -1,0 +1,34 @@
+<style lang="less">
+
+</style>
+
+<template>
+    <view>我的设置页</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class mySetup extends wepy.page  {
+    config = {
+
+    }
+    components = {
+
+    }
+    data = {
+
+    }
+    methods = {
+
+    }
+    events = {
+
+    }
+    onLoad() {
+
+    }
+    onReady() {
+
+    }
+}
+</script>

@@ -1,0 +1,219 @@
+<style lang="less">
+
+//轮播图样式
+.swiper {
+    width: 100%;
+    height: 40%;
+    &-image {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+//导航栏样式
+.nav {
+    
+    height: 20%;
+    display: flex;
+    width: 100%;
+    background-color:#E8E8E8;
+    &-item {
+        justify-content:space-around; 
+        // padding: 24rpx 0 24rpx;
+        margin: 5rpx auto;
+        
+        image {
+            width: 100%;
+            height: 100rpx;
+            border-radius: 15rpx;
+        }
+        &-title{
+            font-size: 30rpx;
+            display: flex;
+            justify-content:space-around; 
+        }
+    }
+    
+    
+}
+
+//实验室动态
+.newsList {
+    width: 97%;
+    height: 20%;
+    font-size: 26rpx;
+    align-content: center;
+    margin: 5rpx auto;
+    background-color:#E8E8E8;
+    border-radius: 7px;
+    &-title {
+         font-size: 30rpx;
+         line-height: 60rpx;
+         background-color:#CFCFCF;
+          border-radius: 7px;
+    }
+    &-item {
+        line-height: 75rpx;
+        margin: 15rpx;
+        border-bottom: 1rpx solid #CFCFCF;
+    }
+    &-viewMore {
+        font-size: 36rpx;
+        margin: 20rpx 20rpx;
+    }
+}
+
+//我的任务
+.taskMine {
+    width: 97%;
+    height: 20%;
+    background-color:#E8E8E8;
+    margin: 5rpx auto;
+    font-size: 26rpx;
+    border-radius: 7px;
+    &-title {
+         font-size: 30rpx;
+         line-height: 60rpx;
+         background-color:#CFCFCF;
+         border-radius: 7px;
+    }
+    &-item {
+        line-height: 75rpx;
+        margin: 15rpx;
+        border-bottom: 1rpx solid #CFCFCF;
+    }
+    &-viewMore {
+        font-size: 36rpx;
+        margin: 20rpx 20rpx;
+    }
+}
+
+// .bc_icon:first-child{
+//     border: none;
+// }
+
+</style>
+
+<template>
+<view>
+
+    <!--轮播图模块-->
+    <view class="swiper">
+            <swiper  indicator-dots="{{ indicatorDots }}" autoplay="{{ autoplay }}"
+                interval="{{ interval }}" duration="{{ duration }}">
+                <block wx:for="{{ swiperSource }}" wx:key="index">
+                    <swiper-item>
+                        <image src="{{ item }}" class="swiper-image"/>
+                    </swiper-item>
+                </block>
+            </swiper>
+    </view>
+
+    <!--导航栏模块-->
+    <view class="nav">
+        <block>
+            <navigator wx:for="{{ naviList }}"  wx:key="index" class="nav-item" url="{{ item.link }}">
+                <image src="{{ item.icon }}"  />
+                <view class="nav-item-title"> {{ item.title }} </view>
+            </navigator>
+        </block>
+    </view>
+
+    <!--我的任务模块-->
+    <view class="taskMine">
+        <view class="taskMine-title">我的任务</view>
+        <view class="taskMine-item" wx:for="{{ newsList }}" wx:key="index">
+            <block> {{ item.taskNo }} <block>
+        </view>
+        <view class="taskMine-viewMore"> 查看更多 >> </view>
+    </view>
+
+    <!--实验室动态-->
+    <view class="newsList">
+        <view class="newsList-title">实验室动态</view>
+        <view class="newsList-item" wx:for="{{ newsList }}" wx:key="index">
+            <block> {{ item.taskNo }} <block>
+        </view>
+        <view class="newsList-viewMore"> 查看更多 >> </view>
+    </view>
+    
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import appConfig from '../utils/appConfig'
+
+export default class labMain extends wepy.page {
+    config = {
+
+    }
+    components = {
+
+    }
+    data = {
+        indicatorDots: true,
+        autoplay: true,
+        interval: 3000,
+        duration: 300,
+        swiperSource: [
+            appConfig.ServerUrl + '/swiperImages/v1003',
+            appConfig.ServerUrl +'/swiperImages/v1002',
+            appConfig.ServerUrl +'/swiperImages/v1001'
+        ],
+        naviList: [
+        {
+          icon: '/images/naviImages/receiveSample.png',
+          title: '收样送检',
+          link: '/pages/receiveSample',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/testExecute.png',
+          title: '检测任务',
+          link: '/pages/testExecute',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/reportView.png',
+          title: '报告查看',
+          link: '/pages/reportView',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/bussiness.png',
+          title: '商业智能',
+          link: '/pages/reportMain',
+          type: 'nav'
+        }
+      ],
+      newsList: [
+          { taskNo: '1101' },
+          { taskNo: '1102' },
+          { taskNo: '1103' },
+          { taskNo: '1104' }
+      ]
+    }
+    methods = {
+
+    }
+    events = {}
+    onLoad () {
+        wx.showLoading({
+            title: '加载中……'
+        })
+    }
+    onReady () {
+        wx.hideLoading()
+        let that = this;
+        // setInterval(function(){
+        //     that.newsList = [
+        //         { taskNo: '34343' },
+        //         { taskNo: 'faf' },
+        //         { taskNo: '5653jy' },
+        //     ]
+        //     that.$apply()
+        // },3000)
+    }
+}
+</script>

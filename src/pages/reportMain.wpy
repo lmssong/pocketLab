@@ -1,0 +1,19 @@
+<script>
+import wepy from 'wepy'
+
+export default class reportMain extends wepy.page {
+    config = {}
+    components = {}
+    data = {}
+    methods = {}
+    events = {}
+    onLoad () {
+        wx.showLoading({
+            title: '加载中……'
+        })
+    }
+    onReady () {
+        wx.hideLoading()
+    }
+}
+</script>

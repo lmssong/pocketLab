@@ -1,0 +1,15 @@
+{
+	"description": "口袋实验室",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxd78a7d0b1f0bf9d2",
+	"projectname": "pocketlab",
+	"miniprogramRoot": "dist/",
+	"condition": {}
+}

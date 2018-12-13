@@ -1,0 +1,20 @@
+<template>
+    <view>这是样品送检详细页</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class receiveSampleDetail extends wepy.page {
+    config = {}
+    components = {}
+    data = {}
+    methods = {}
+    events = {}
+    onLoad() {
+
+    }
+    onReady() {
+
+    }
+}
+</script>
