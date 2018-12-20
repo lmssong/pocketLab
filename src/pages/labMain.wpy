@@ -13,12 +13,14 @@
 //导航栏样式
 .nav {
     
-    height: 20%;
-    display: flex;
-    width: 100%;
-    background-color:#E8E8E8;
+    background-color: "#eeeeee";
+    align-items: center;
+    height:100vh;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
     &-item {
-        justify-content:space-around; 
+        // justify-content:space-around; 
         // padding: 24rpx 0 24rpx;
         margin: 5rpx auto;
         
@@ -88,9 +90,118 @@
     }
 }
 
-// .bc_icon:first-child{
-//     border: none;
-// }
+.weui-grids {
+    position: relative;
+    overflow: hidden;
+    width:99%;
+    margin-top: 5rpx;
+}
+.weui-grids:before {
+    content:" ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1rpx;
+    border-top:1rpx solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    
+}
+.weui-grids:after{
+    content:" ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 1rpx;
+    bottom: 0;
+    border-left:1rpx solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleX(0.5);
+    transform: scaleX(0.5);
+}
+
+.weui-grid {
+    position: relative;
+    float: left;
+    padding: 20rpx 10rpx;
+    width: 33.333333333%;
+    box-sizing: border-box;
+}
+
+.weui-grid:before {
+    content: " ";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1rpx;
+    bottom: 0;
+    border-right: 1rpx solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 100% 0;
+    transform-origin: 100% 0;
+    -webkit-transform: scaleX(0.5);
+    transform: scaleX(0.5);
+}
+.weui-grid:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1rpx;
+    border-bottom: 1rpx solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+
+.weui-grid:active {
+    background-color: #ececec;
+}
+
+.weui-grid__bg {
+    position: relative;
+    float: left;
+    padding: 0rpx 0rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.weui-grid__icon {
+    width: 70%;
+    height: 80rpx;
+    margin: 0 auto;
+}
+
+.weui-grid__icon image {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.weui-grid__icon + .weui-grid__label {
+    margin-top: 5rpx;
+}
+
+.weui-grid__label {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    font-size: 28rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
 </style>
 
@@ -110,31 +221,19 @@
     </view>
 
     <!--导航栏模块-->
-    <view class="nav">
-        <block>
-            <navigator wx:for="{{ naviList }}"  wx:key="index" class="nav-item" url="{{ item.link }}">
-                <image src="{{ item.icon }}"  />
-                <view class="nav-item-title"> {{ item.title }} </view>
-            </navigator>
-        </block>
-    </view>
-
-    <!--我的任务模块-->
-    <view class="taskMine">
-        <view class="taskMine-title">我的任务</view>
-        <view class="taskMine-item" wx:for="{{ newsList }}" wx:key="index">
-            <block> {{ item.taskNo }} <block>
+    <view class="container">
+        <view class="weui-grids">
+            <view class="weui-grid" wx:for="{{ naviList }}" wx:key="index">
+                <navigator url="{{ item.link }}">
+                    <view class="weui-grid__bg">
+                        <view class="weui-grid__icon">
+                            <image src="{{ item.icon }}" mode="scaleToFill"/>
+                        </view>
+                        <text class="weui-grid__label">{{ item.title }}</text>
+                    </view>
+                </navigator>
+            </view>
         </view>
-        <view class="taskMine-viewMore"> 查看更多 >> </view>
-    </view>
-
-    <!--实验室动态-->
-    <view class="newsList">
-        <view class="newsList-title">实验室动态</view>
-        <view class="newsList-item" wx:for="{{ newsList }}" wx:key="index">
-            <block> {{ item.taskNo }} <block>
-        </view>
-        <view class="newsList-viewMore"> 查看更多 >> </view>
     </view>
     
 </view>
@@ -163,27 +262,57 @@ export default class labMain extends wepy.page {
         ],
         naviList: [
         {
-          icon: '/images/naviImages/receiveSample.png',
-          title: '收样送检',
-          link: '/pages/receiveSample',
+          icon: '/images/naviImages/approvalCenter.png',
+          title: '审批中心',
+          link: '/pages/approvalCenter',
           type: 'nav'
         },
         {
-          icon: '/images/naviImages/testExecute.png',
-          title: '检测任务',
-          link: '/pages/testExecute',
+          icon: '/images/naviImages/documentCenter.png',
+          title: '文档中心',
+          link: '/pages/documentCenter',
           type: 'nav'
         },
         {
-          icon: '/images/naviImages/reportView.png',
-          title: '报告查看',
-          link: '/pages/reportView',
+          icon: '/images/naviImages/messageCenter.png',
+          title: '消息中心',
+          link: '/pages/messageCenter',
           type: 'nav'
         },
         {
-          icon: '/images/naviImages/bussiness.png',
-          title: '商业智能',
-          link: '/pages/reportMain',
+          icon: '/images/naviImages/receiveManage.png',
+          title: '送检管理',
+          link: '/pages/receiveManage',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/testingManage.png',
+          title: '检测管理',
+          link: '/pages/testingManage',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/reportManage.png',
+          title: '报告管理',
+          link: '/pages/reportManage',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/dataManage.png',
+          title: '数据统计',
+          link: '/pages/dataManage',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/toolsManage.png',
+          title: '工具',
+          link: '/pages/toolsManage',
+          type: 'nav'
+        },
+        {
+          icon: '/images/naviImages/userManage.png',
+          title: '我的',
+          link: '/pages/userManage',
           type: 'nav'
         }
       ],

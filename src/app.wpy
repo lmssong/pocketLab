@@ -24,16 +24,15 @@ export default class extends wepy.app {
     pages: [
       'pages/labMain',
       'pages/login',
-      'pages/reportMain',
-      'pages/sampleMain',
-      'pages/scanMain',
-      'pages/taskMain',
-      'pages/receiveSample',
-      'pages/testExecute',
-      'pages/formRecord',
-      'pages/reportView',
-      'pages/receiveSampleDetail',
-      'pages/mySetup'
+      'pages/approvalCenter',
+      'pages/documentCenter',
+      'pages/messageCenter',
+      'pages/receiveManage',
+      'pages/testingManage',
+      'pages/reportManage',
+      'pages/dataManage',
+      'pages/toolsManage',
+      'pages/userManage'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -41,34 +40,36 @@ export default class extends wepy.app {
       navigationBarTitleText: '口袋实验室',
       navigationBarTextStyle: 'black'
     },
-    tabBar: {
-      list: [{
-        pagePath: 'pages/labMain',
-        text: '实验室',
-        iconPath: '/images/labMain.png',
-        selectedIconPath: '/images/labMain.png'
-      }, {
-        pagePath: 'pages/taskMain',
-        text: '任务',
-        iconPath: '/images/taskMain.png',
-        selectedIconPath: '/images/taskMain.png'
-      }, {
-        pagePath: 'pages/scanMain',
-        text: '扫一扫',
-        iconPath: '/images/scanMain.png',
-        selectedIconPath: '/images/scanMain.png'
-      }, {
-        pagePath: 'pages/sampleMain',
-        text: '样品',
-        iconPath: '/images/sampleMain.png',
-        selectedIconPath: '/images/sampleMain.png'
-      }, {
-        pagePath: 'pages/mySetup',
-        text: '我的',
-        iconPath: '/images/mySetup.png',
-        selectedIconPath: '/images/mySetup.png'
-      }]
-    }
+    // tabBar: {
+      // list: [
+      //   {
+      //   pagePath: 'pages/labMain',
+      //   text: '实验室',
+      //   iconPath: '/images/labMain.png',
+      //   selectedIconPath: '/images/labMain.png'
+      // }, {
+      //   pagePath: 'pages/taskMain',
+      //   text: '任务',
+      //   iconPath: '/images/taskMain.png',
+      //   selectedIconPath: '/images/taskMain.png'
+      // }, {
+      //   pagePath: 'pages/scanMain',
+      //   text: '扫一扫',
+      //   iconPath: '/images/scanMain.png',
+      //   selectedIconPath: '/images/scanMain.png'
+      // }, {
+      //   pagePath: 'pages/sampleMain',
+      //   text: '样品',
+      //   iconPath: '/images/sampleMain.png',
+      //   selectedIconPath: '/images/sampleMain.png'
+      // }, {
+      //   pagePath: 'pages/mySetup',
+      //   text: '我的',
+      //   iconPath: '/images/mySetup.png',
+      //   selectedIconPath: '/images/mySetup.png'
+      // }
+      // ]
+    // }
   }
 
   globalData = {

@@ -1,7 +1,7 @@
 {
 	"description": "口袋实验室",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
