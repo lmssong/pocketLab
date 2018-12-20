@@ -1,0 +1,90 @@
+<style>
+.search {
+    width: 98%;
+    height: 70rpx;
+    border: 5rpx solid aliceblue;
+    font-size: 28rpx;
+    border-radius: 20rpx;
+}
+.dataGrid {
+    width: 100%;
+    height: 100%;
+    background-color: aliceblue;
+    
+}
+
+.dataGridItem {
+    width: 98%;
+    height: 160rpx;
+    margin: 0 auto;
+    line-height: 40rpx;
+    margin-top: 5rpx;
+    background-color:white;
+    border-bottom: 1rpx solid #d9d9d9;
+
+}
+
+.dataGridItem image {
+    width: 55rpx;
+    height: 55rpx;
+}
+
+.dataGridItem text {
+    font-size: 35rpx;
+}
+.dataGridItem button {
+    float: right;
+}
+
+</style>
+
+<template>
+    <view class="container">
+        <view class="search">
+            <input placeholder="请输入要搜索的审批主题内容" />
+        </view>
+        <view class="dataGrid">
+            <view  class="dataGridItem" wx:for="{{ approvalCenterDatas }}" wx:key="index" wx:item="item">
+                <view >
+                    <image src="../images/approvalCenterImg/approvalItem.png"/>
+                    <text> {{ item.NAME }} </text>
+                </view>
+                <view> 
+                    <button type="primary" size="mini" plain="true">查阅审批</button>
+                    <text> {{ item.CODE }} </text>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import api from '../../dist/api/api';
+
+export default class approvalCenter extends wepy.page  {
+    config = {
+
+    }
+    conponents = {}
+    data = {
+        approvalCenterDatas: []
+    }
+    methods = {}
+    events = {}
+    onLoad () {
+        wx.showLoading({
+            title: '加载中……'
+        })
+        this.getApprovalCenterDatas();
+    }
+    onReady () {
+        wx.hideLoading()
+    }
+    getApprovalCenterDatas = async function(params) {
+        let result = await api.getApprovalCenterDatas(params);
+        this.approvalCenterDatas = result;
+        this.$apply();
+    }
+}
+</script>

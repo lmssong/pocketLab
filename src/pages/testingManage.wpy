@@ -1,0 +1,189 @@
+<style lang="less">
+    .container {
+        width:100%;
+    }
+
+    .topNav {
+         width: 100%;
+        height: 100%;
+        background-color:#E8E8E8;
+        border-bottom: 1rpx solid #CFCFCF;
+         display: flex;
+        flex-direction: row;
+        text-align: center;
+        line-height: 70rpx;
+        
+        &-firstfloor {
+            width:50%;
+        }
+        &-secendfloor {
+            width:50%;
+        }
+    }
+
+    .content {
+        width: 97%;
+        height: 100%;
+        
+        &-allTask {
+            line-height: 70rpx;
+            align-content: center;
+            justify-content:first baseline;
+            margin-top: 10rpx;
+            background-color:ghostwhite;
+            font-size: 35rpx;
+            image {
+                width: 60rpx;
+                height: 60rpx;
+            }
+            text {
+                color: green;
+                font-size: 30rpx;
+                float: right;
+            }
+            &-sampleInfo {
+                font-size: 28rpx;
+            }
+        }
+        &-myTask {
+           line-height: 70rpx;
+            align-content: center;
+            justify-content:first baseline;
+            margin-top: 10rpx;
+            background-color:whitesmoke;
+            font-size: 35rpx;
+            image {
+                width: 60rpx;
+                height: 60rpx;
+            }
+            text {
+                color: green;
+                font-size: 30rpx;
+                float: right;
+            }
+            &-sampleInfo {
+                font-size: 28rpx;
+            }
+        }
+    }
+
+</style>
+
+<template>
+    <view class="container">
+        <!--上层导航-->
+        <view class="topNav">
+            <view class="topNav-firstfloor" style="border-radius: 20px;background-color: {{ selectedBackg1 }}" @tap="navSelect">全部任务</view>
+            <view class="topNav-secendfloor" style="border-radius: 20px; background-color: {{ selectedBackg2 }}"  @tap="navSelect">我的任务</view>
+        </view>
+
+        <!--主内容信息-->
+        <view class="content">
+            <view  wx:if="{{ showAll }}" class="content-allTask" wx:for="{{ allTaskList }}" wx:key="index" wx:item="item">
+                <view wx:if="{{item.Status == 'ToDispatched'}}">
+                    <image src='../images/taskImages/statusawait.png' />
+                    待分派
+                    {{ item.TestResult }}
+                    <!-- <view> </view> -->
+                </view>
+                <view wx:elif="{{ item.Status == 'ToTest' }}">
+                    <image src="../images/taskImages/totest.png"/>
+                    待检测
+                    <view> {{ item.TestResult }}</view>
+                </view>
+                <view wx:elif="{{ item.Status == 'Testing' }}">
+                    <image src="../images/taskImages/totest.png"/>
+                    检测中
+                    <view> {{ item.TestResult }}</view>
+                </view>
+                <view wx:else>
+                    <image src="../images/taskImages/complete.png"/>
+                    已完成
+                   <text>{{ item.TestResult }}</text> 
+                </view>
+                <view class="content-allTask-sampleInfo"> {{ item.SampleNo }} ({{ item.SampleName }}) </view>
+                <view> {{ item.ItemName }} {{ item.IndexName }}</view>
+            </view>
+            <view wx:if="{{ showMy }}" class="content-myTask" wx:for="{{ myTaskList }}" wx:key="index" wx:for-item="mytaskItem">
+                <view wx:if="{{ mytaskItem.Status == 'ToTest' }}">
+                    <image src="../images/taskImages/totest.png"/>
+                    <button wx:if="{{ mytaskItem.Status == 'ToTest' }}" type="primary" size="mini" @tap="startTask"> 开始任务 </button>
+                    待检测
+                    <view> {{ mytaskItem.TestResult }}</view>
+                </view>
+                <view wx:elif="{{ mytaskItem.Status == 'Testing' }}">
+                    <image src="../images/taskImages/totest.png"/>
+                    <button wx:if="{{ mytaskItem.Status == 'Testing' }}" type="primary" size="mini" @tap="startTask"> 登记结果 </button>
+                    检测中
+                    <view> {{ mytaskItem.TestResult }}</view>
+                </view>
+                <view wx:else>
+                    <image src="../images/taskImages/complete.png"/>
+                    已完成
+                   <text>{{ mytaskItem.TestResult }}</text> 
+                </view>
+                <view class="content-myTask-sampleInfo"> 
+                    {{ mytaskItem.SampleNo }} ({{ mytaskItem.SampleName }}) 
+                </view>
+                <view> {{ mytaskItem.ItemName }} {{ mytaskItem.IndexName }}</view>
+                
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import api from '../api/api';
+
+export default class testingManage extends wepy.page {
+    config = {}
+    components = {}
+    data = {
+        showAll: true,
+        selectedBackg1: '#F0F8FF',
+        selectedBackg2: '#E8E8E8',
+        allTaskList: [],
+        myTaskList: []
+    }
+    computed= {
+        showMy() {
+            return !this.showAll;
+        }
+    }
+    methods = {
+        navSelect() {
+            if(this.showAll){
+                this.showAll = false;
+                this.selectedBackg1 = '#E8E8E8'
+                this.selectedBackg2 = '#F0F8FF'
+            }else{
+                this.showAll = true;
+                this.selectedBackg2 = '#E8E8E8'
+                this.selectedBackg1 = '#F0F8FF'
+            }
+            this.$apply();
+        },
+        startTask(){
+            //更改数据库任务状态
+
+        }
+    }
+    events = {}
+    onLoad () {
+        wx.showLoading({
+            title: '加载中……'
+        })
+        this.initTestingTaskDatas();
+    }
+    onReady () {
+        wx.hideLoading()
+    }
+    initTestingTaskDatas  = async function (params) {
+        this.allTaskList = await api.getTestingTaskDatas(params);
+
+        this.myTaskList = await api.getTestingTaskDatas(params);
+        this.$apply();
+    }
+}
+</script>
