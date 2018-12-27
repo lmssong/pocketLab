@@ -1,19 +1,70 @@
+
+<style lang="less">
+.reportManagementList {
+    width: 100%;
+    height:100%;
+    background: aliceblue;
+    margin: 0 auto;
+    &-item {
+        width: 98%;
+        height: 160rpx;
+        margin: 0 auto;
+        margin-top: 5rpx;
+        background: white;
+        line-height: 40rpx;
+
+        text {
+            font-size: 36rpx;
+            text-align: center;
+        }
+    }
+}
+</style>
+
+<template>
+    <view class="container">
+        <view class="reportManagementList">
+            <view class="reportManagementList-item" wx:for="{{ reportManagementDatas }}" wx:key="index" wx:for-item="dataItem">
+               <view>
+                    <text>{{ dataItem.TESTING_REPORT_NO }}</text>
+                </view> 
+                 <block>
+                    <text>{{ dataItem.REPORT_APPLICATION_NO }}</text>
+                </block>
+            </view>
+        </view>
+    </view>
+</template>
+
 <script>
 import wepy from 'wepy'
+import { api } from '../utils/appConfig'
 
 export default class reportManage extends wepy.page {
     config = {}
     components = {}
-    data = {}
+    data = {
+        reportManagementDatas: []
+    }
     methods = {}
     events = {}
     onLoad () {
         wx.showLoading({
             title: '加载中……'
         })
+        this.initReportManagementDatas()
     }
     onReady () {
         wx.hideLoading()
+    }
+    initReportManagementDatas = async function() {
+        let result = await wepy.request({
+            method: api.reportManagement.dataList.method,
+            url: api.reportManagement.dataList.url
+        })
+        console.log(result.data)
+        this.reportManagementDatas = result.data
+        this.$apply()
     }
 }
 </script>

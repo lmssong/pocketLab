@@ -24,7 +24,7 @@
     margin: 0 auto;
 }
 
-.dataGrid1 {
+.dataGrid {
     width: 100%;
     height: 100%;
     line-height: 50rpx;
@@ -42,6 +42,10 @@
         width: 55rpx;
         height: 55rpx;
     }
+    &-item button {
+        float: right;
+    }
+
 }
 
 </style>
@@ -56,15 +60,34 @@
         <scroll-view scroll-y style="height: {{ winHeight}}rpx">
             <swiper class="swiper-content" current="{{ currentTab}}"  duration="300"  bindchange="swiperTab" style="height: {{ winHeight}}rpx">
                 <swiper-item>
-                    <view class="dataGrid1">
-                        <view class="dataGrid1-item" wx:for="{{ documentCenterDatas }}" wx:key="index" wx:item="item">
-                            <image src="../images/documentCenterImg/documentItem.png"/>
-                            <text>{{ item.TITLE }}</text>
+                    <view class="dataGrid">
+                        <view class="dataGrid-item" wx:for="{{ documentCenterDatas }}" wx:key="index" wx:item="item">
+                            <view>
+                                <image src="../images/documentCenterImg/documentItem.png"/>
+                                <text>{{ item.TITLE }}</text>
+                            </view>
+                             <view> 
+                                <button type="primary" size="mini" plain="true" @tap="documentView">查看</button>
+                                <text> {{ item.CODE }} </text>
+                            </view>
                         </view>
+                        
                     </view>
                 </swiper-item>
                 <swiper-item>
-                    <view class="dataGrid2"></view>
+                    <view class="dataGrid">
+                        <view class="dataGrid-item" wx:for="{{ documentCenterDatas }}" wx:key="index" wx:item="item">
+                            <view>
+                                <image src="../images/documentCenterImg/documentItem.png"/>
+                                <text>{{ item.TITLE }}</text>
+                            </view>
+                             <view> 
+                                <button type="primary" size="mini" plain="true">查看</button>
+                                <text> {{ item.CODE }} </text>
+                            </view>
+                        </view>
+                        
+                    </view>
                 </swiper-item>
             </swiper>
         </scroll-view>
@@ -75,7 +98,7 @@
 
 <script>
 import wepy from 'wepy'
-import api from '../api/api'
+import { api } from '../utils/appConfig'
 
 export default class documentCenter extends wepy.page {
     config = {}
@@ -83,7 +106,8 @@ export default class documentCenter extends wepy.page {
     data = {
         currentTab: 0,
         winHeight: "",
-        documentCenterDatas: []
+        documentCenterDatas: [],
+        isoDocumentDatas:[]
     }
     methods = {
         selectTab(e) {
@@ -103,6 +127,30 @@ export default class documentCenter extends wepy.page {
             console.log(e);
             this.currentTab = e.detail.current;
             this.$apply();
+        },
+        documentView() {
+            //图片预览
+            wx.previewImage({
+               urls: ['https://lmssong.cn:8081/swiperImages/v1001']
+            });
+
+            //文档打开
+            // wx.downloadFile({
+            //     url:'https://lmssong.cn:8081/docView/doc1001',
+            //     success: function(res){
+            //         const filePath = res.tempFilePath
+            //         console.log(filePath)
+            //         wx.openDocument({
+            //             filePath: filePath,
+            //             success: function(res){
+            //                 console.log('文档打开成功')
+            //             }
+            //         })
+            //     },
+            //     fail: function(err) {
+            //         console.log(err);
+            //     }
+            // })
         }
 
     }
@@ -120,7 +168,7 @@ export default class documentCenter extends wepy.page {
                 var clientHeight=res.windowHeight,
                     clientWidth=res.windowWidth,
                     rpxR=750/clientWidth;
-               var  calc=clientHeight*rpxR-180;
+               var  calc=clientHeight*rpxR;
                 console.log(calc)
                 that.winHeight = calc
                 that.$apply();
@@ -131,9 +179,20 @@ export default class documentCenter extends wepy.page {
     onReady () {
         wx.hideLoading()
     }
-    getDocumentCenterDatas = async function (params) {
-        let result = await api.getDocumentCenterDatas(params);
-        this.documentCenterDatas = result;
+    async getDocumentCenterDatas(params) {
+        let result = await wepy.request({
+            url: api.documentCenter.dataList.url,
+            method: api.documentCenter.dataList.method
+        })
+        this.documentCenterDatas = result.data;
+        this.$apply();
+    }
+    async getIsoDocumentDatas(params) {
+        let result = await wepy.request({
+            url: api.documentCenter.dataList.url,
+            methods: api.documentCenter.dataList.methods
+        })
+        this.isoDocumentDatas = result.data
         this.$apply();
     }
 

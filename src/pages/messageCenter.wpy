@@ -1,23 +1,66 @@
+<style lang="less">
+.messageList {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: aliceblue;
+    &-item {
+        height: 140rpx;
+        width: 98%;
+        line-height: 40rpx;
+        background: white;
+        margin: 0 auto;
+        border-bottom: 1rpx solid black;
+        margin-top:5rpx;
+        &-tltle {
+            font-size: 36rpx;
+            text-align: center;
+        }
+    }   
+}
+</style>
+
 <template>
-    <view>消息中心</view>
+    <view class="container">
+        <view class="messageList">
+          <view class="messageList-item" wx:for="{{ messageCenterDatas }}" wx:key="index" wx:for-item="item">
+              <view>
+                  <text class="messageList-item-title"> {{ item.SUBJECT }}</text>
+              </view>
+          </view> 
+        </view>
+    </view>
 </template>
 
 <script>
 import wepy from 'wepy'
+import { api } from "../utils/appConfig";
 
 export default class messageCenter extends wepy.page {
     config = {}
     components = {}
-    data = {}
+    data = {
+        messageCenterDatas: []
+    }
     methods = {}
     events = {}
     onLoad () {
         wx.showLoading({
             title: '加载中……'
         })
+        this.initSystemMessageDatas()
     }
     onReady () {
         wx.hideLoading()
+    }
+    async initSystemMessageDatas() {
+        let result = await wepy.request({
+            method: api.messageCenter.dataList.method,
+            url: api.messageCenter.dataList.url
+        })
+        console.log(result)
+        this.messageCenterDatas = result.data
+        this.$apply()
     }
 }
 </script>

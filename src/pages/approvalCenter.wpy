@@ -60,7 +60,7 @@
 
 <script>
 import wepy from 'wepy'
-import api from '../../dist/api/api';
+import { api } from '../utils/appConfig'
 
 export default class approvalCenter extends wepy.page  {
     config = {
@@ -80,11 +80,15 @@ export default class approvalCenter extends wepy.page  {
     }
     onReady () {
         wx.hideLoading()
+        
     }
-    getApprovalCenterDatas = async function(params) {
-        let result = await api.getApprovalCenterDatas(params);
-        this.approvalCenterDatas = result;
-        this.$apply();
+    async getApprovalCenterDatas(params) {
+        let result = await wepy.request({
+            url:api.approvalCenter.dataList.url,
+            method:api.approvalCenter.dataList.method
+        })
+        this.approvalCenterDatas = result.data
+        this.$apply()
     }
 }
 </script>

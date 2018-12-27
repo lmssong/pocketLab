@@ -2,7 +2,6 @@ import weRequest from '../utils/wxRequest'
 import appConfig from '../utils/appConfig'
 import Promise from 'bluebird'
 
-
 const getLabMainNavigatorDatas = params => {
      weRequest('labMain/getLabMainNavigatorDatas', params,function(result){
          return result
@@ -19,6 +18,11 @@ const getDocumentCenterDatas = async function(params) {
     return await weRequest('/documentCenter/getDocumentCenterDatas',params);
 }
 
+//获取文档中心ISO认证体系文件数据
+const getIsoDocumentDatas = async function(params) {
+    return await weRequest('/documentCenter/getIsoDocumentDatas',params);
+}
+
 //收样送检数据
 const getReceiveSampleDatas = async function(params) {
     return await weRequest('/receiveSample/getList',params);
@@ -33,6 +37,7 @@ const getTestingTaskDatas = async function (params) {
 export default {
     getApprovalCenterDatas,
     getDocumentCenterDatas,
+    getIsoDocumentDatas,
     getLabMainNavigatorDatas,
     getReceiveSampleDatas,
     getTestingTaskDatas

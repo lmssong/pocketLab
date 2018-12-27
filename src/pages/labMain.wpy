@@ -241,7 +241,7 @@
 
 <script>
 import wepy from 'wepy'
-import appConfig from '../utils/appConfig'
+import apiConfig from '../utils/appConfig'
 
 export default class labMain extends wepy.page {
     config = {
@@ -256,9 +256,9 @@ export default class labMain extends wepy.page {
         interval: 3000,
         duration: 300,
         swiperSource: [
-            appConfig.ServerUrl + '/swiperImages/v1003',
-            appConfig.ServerUrl +'/swiperImages/v1002',
-            appConfig.ServerUrl +'/swiperImages/v1001'
+            apiConfig.hosts[apiConfig.env] + '/swiperImages/v1003',
+            apiConfig.hosts[apiConfig.env] +'/swiperImages/v1002',
+            apiConfig.hosts[apiConfig.env] +'/swiperImages/v1001'
         ],
         naviList: [
         {
