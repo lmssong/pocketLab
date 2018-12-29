@@ -1,0 +1,130 @@
+<template>
+  <view>
+      <view class="visitor__wrapper">
+          <view class="title"> {{ viewObj.title }}</view>
+          <view class="tabs__wrapper">
+              <view class="content">
+                  <view wx:if="{{ viewObj.viewType }} == 1">
+                      <!-- <pie_chart :viewObj.sync = "viewObj"></pie_chart> -->
+                  </view>
+              </view>
+          </view>
+      </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+// import LineChart from '@/components/charts/lineChart'
+// import PieChart from '@/components/charts/pieChart'
+// import ScatterChart from '@/components/charts/scatterChart'
+
+export default class dataReportDetail extends wepy.page {
+    config = {
+        // usingComponents: {
+        //     ec_canvas: '../components/charts/ec-canvas/ec-canvas',
+        //     // map_chart: '../components/nativeComponents/HeNanMapChart/index'
+        // }
+    }
+    components = {
+        // pie_chart: PieChart
+    }
+
+    data = {
+        viewObj: {
+            viewType: 0,
+            title: '订单状态占比'
+        }
+    }
+
+    methods = {
+    }
+    onLoad(e) {
+        if(e.type == 0){
+            this.viewObj = {
+                viewType: 0,
+                title: '订单状态占比'
+            }
+        }
+        if(e.type == 1){
+            this.viewObj = {
+                viewType: 1,
+                title: '报告状态占比'
+            }
+        }
+        if(e.type == 2){
+            this.viewObj = {
+                viewType: 2,
+                title: '检测任务单状态占比'
+            }
+        }
+        if(e.type == 3){
+            this.viewObj = {
+                viewType: 3,
+                title: '近一年月订单金额折线图'
+            }
+        }
+        if(e.type == 4){
+            this.viewObj = {
+                viewType: 4,
+                title: '近一年订单金额区间分布'
+            }
+        }
+        if(e.type == 5){
+            this.viewObj = {
+                viewType: 5,
+                title: '近一年订单常用检测项目排行'
+            }
+        }
+        if(e.type == 6){
+            this.viewObj = {
+                viewType: 6,
+                title: '客户订单金额前十'
+            }
+        }
+        this.$apply();
+    }
+    onReady() {
+
+    }
+  }
+  </script>
+
+  <style lang='less'>
+    .visitor__wrapper {
+      background: #fff;
+
+      .title {
+        font-size: 40rpx;
+        padding: 0 60rpx;
+        box-sizing: border-box;
+      }
+
+      .tabs__wrapper {
+        margin-top: 20rpx;
+
+        .tabs {
+          display: flex;
+          font-size: 32rpx;
+          padding: 0 60rpx;
+          box-sizing: border-box;
+          justify-content: space-between;
+
+          .tab__item {
+            &.active {
+              color: #6668ee;
+            }
+
+            &.active::after {
+              content: '';
+              display: block;
+              height: 4rpx;
+              background: #6668ee;
+              width: 70rpx;
+              margin-top: 20rpx;
+            }
+          }
+        }
+      }
+}
+</style>

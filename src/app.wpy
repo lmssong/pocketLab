@@ -31,6 +31,7 @@ export default class extends wepy.app {
       'pages/testingManage',
       'pages/reportManage',
       'pages/dataManage',
+      'pages/dataReportDetail',
       'pages/toolsManage',
       'pages/userManage'
     ],
